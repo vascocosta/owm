@@ -10,6 +10,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 type weatherLine struct {
@@ -120,6 +121,36 @@ func (c *Client) data(url string) (data []byte, err error) {
 // WeatherByName decodes the current weather given a city name.
 func (c *Client) WeatherByName(name string, units string) (w Weather, err error) {
 	data, err := c.data(c.baseURL + "weather" + "?q=" + name + "&units=" + units)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+		return
+	}
+	err = json.Unmarshal(data, &w)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+		return
+	}
+	return
+}
+
+// WeatherById decodes the current weather given a city id.
+func (c *Client) WeatherById(id int, units string) (w Weather, err error) {
+	data, err := c.data(c.baseURL + "weather" + "?id=" + strconv.Itoa(id) + "&units=" + units)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+		return
+	}
+	err = json.Unmarshal(data, &w)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+		return
+	}
+	return
+}
+
+// WeatherByCoord decodes the current weather given coordinates.
+func (c *Client) WeatherByCoord(lat float64, lon float64, units string) (w Weather, err error) {
+	data, err := c.data(c.baseURL + "weather" + "?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) + "&lon=" + strconv.FormatFloat(lon, 'f', 2, 64) + "&units=" + units)
 	if err != nil {
 		err = errors.New("owm: error while decoding weather")
 		return
