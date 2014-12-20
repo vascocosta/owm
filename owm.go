@@ -7,8 +7,8 @@ package owm
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -102,26 +102,32 @@ func NewClient(key string) *Client {
 	return &Client{key, "http://api.openweathermap.org/data/2.5/"}
 }
 
-func (c *Client) data(url string) []byte {
+func (c *Client) data(url string) (data []byte, err error) {
 	res, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		err = errors.New("owm: error while getting weather data")
+		return
 	}
-	data, err := ioutil.ReadAll(res.Body)
+	data, err = ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		log.Fatal(err)
+		err = errors.New("owm: error while getting weather data")
+		return
 	}
-	return data
+	return
 }
 
 // WeatherByName decodes the current weather given a city name.
-func (c *Client) WeatherByName(name string, units string) Weather {
-	var w Weather
-	data := c.data(c.baseURL + "weather" + "?q=" + name + "&units=" + units)
-	err := json.Unmarshal(data, &w)
+func (c *Client) WeatherByName(name string, units string) (w Weather, err error) {
+	data, err := c.data(c.baseURL + "weather" + "?q=" + name + "&units=" + units)
 	if err != nil {
-		log.Fatal(err)
+		err = errors.New("owm: error while decoding weather")
+		return
 	}
-	return w
+	err = json.Unmarshal(data, &w)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+		return
+	}
+	return
 }
