@@ -4,16 +4,22 @@ Package owm implements a wrapper for the OpenWeatherMap API.
 
 Read more about the OpenWeatherMap API here: http://openweathermap.org/api.
 
+## Installation
+
+`go get github.com/vascocosta/owm`
+
+## Documentation
+
+`godoc github.com/vascocosta/owm`
+
 ## Example
 
 ```go
 package main
 
 import (
-	"fmt"
 	"github.com/vascocosta/owm"
 	"log"
-	"time"
 )
 
 func main() {

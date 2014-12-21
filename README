@@ -5,16 +5,24 @@ Package owm implements a wrapper for the OpenWeatherMap API.
 
 Read more about the OpenWeatherMap API here: http://openweathermap.org/api.
 
+Installation
+------------
+
+go get github.com/vascocosta/owm
+
+Documentation
+-------------
+
+godoc github.com/vascocosta/owm
+
 Example
 -------
 
 package main
 
 import (
-	"fmt"
 	"github.com/vascocosta/owm"
 	"log"
-	"time"
 )
 
 func main() {
@@ -37,11 +45,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-        // Get the current weather given the city coordinates and the units.
-        w, err := c.WeatherByCoord(40.71, -74.01, "kelvin")
+	// Get the current weather given the city coordinates and the units.
+	w, err := c.WeatherByCoord(40.71, -74.01, "kelvin")
 
-        // Exit the program if there is an error.
-        if err != nil {
-                log.Fatal(err)
-        }
+	// Exit the program if there is an error.
+	if err != nil {
+		log.Fatal(err)
+	}
 }
