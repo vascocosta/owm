@@ -46,6 +46,9 @@ type forecastLine struct {
 	DtTxt string `json:"dt_txt"`
 }
 
+// Weather represents the current weather at a specific location.
+//
+// It is returned by the WeatherBy* methods of Client.
 type Weather struct {
 	Coord struct {
 		Lat float64
@@ -80,6 +83,9 @@ type Weather struct {
 	Cod  int
 }
 
+// WeatherSet represents the current weather at a set of specific locations.
+//
+// It is returned by the WeatherSetBy* methods of Client.
 type WeatherSet struct {
 	Cnt     int
 	Weather []Weather `json:"list"`
@@ -100,12 +106,13 @@ type Forecast struct {
 	ForecastLine []forecastLine
 }
 
+// Client represents an OpenWeatherMap API client.
 type Client struct {
 	key     string
 	baseURL string
 }
 
-// NewClient returns a new client given a key.
+// NewClient returns a new Client given a key.
 func NewClient(key string) *Client {
 	return &Client{key, "http://api.openweathermap.org/data/2.5/"}
 }
