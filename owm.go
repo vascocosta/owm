@@ -91,6 +91,9 @@ type WeatherSet struct {
 	Weather []Weather `json:"list"`
 }
 
+// Forecast represents the weather forecast for a specific location.
+//
+// It is returned by the ForecastBy* methods of Client.
 type Forecast struct {
 	Cod  int
 	City struct {
