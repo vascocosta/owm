@@ -78,6 +78,11 @@ type Weather struct {
 	Cod  int
 }
 
+type WeatherSet struct {
+	Cnt     int
+	Weather []Weather `json:"list"`
+}
+
 type Forecast struct {
 	Cod  int
 	City struct {
@@ -162,6 +167,36 @@ func (c *Client) WeatherByCoord(lat float64, lon float64, units string) (w Weath
 		"weather" +
 		"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
 		"&lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
+		"&units=" + units)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+	}
+	return
+}
+
+func (c *Client) weatherSet(url string) (ws WeatherSet, err error) {
+	data, err := c.data(url)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+		return
+	}
+	err = json.Unmarshal(data, &ws)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+		return
+	}
+	return
+}
+
+// WeatherSetByIds decodes the current weather given a slice of city ids and the units.
+func (c *Client) WeatherSetByIds(id []int, units string) (ws WeatherSet, err error) {
+	var ids string
+	for i := range id {
+		ids += strconv.Itoa(id[i]) + ","
+	}
+	ws, err = c.weatherSet(c.baseURL +
+		"group" +
+		"?id=" + ids[:len(ids)-1] +
 		"&units=" + units)
 	if err != nil {
 		err = errors.New("owm: error while decoding weather")
