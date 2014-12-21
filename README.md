@@ -36,12 +36,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-        // Get the current weather given the city coordinates and the units.
-        w, err := c.WeatherByCoord(40.71, -74.01, "kelvin")
+	// Get the current weather given the city coordinates and the units.
+	w, err := c.WeatherByCoord(40.71, -74.01, "kelvin")
 
-        // Exit the program if there is an error.
-        if err != nil {
-                log.Fatal(err)
-        }
+	// Exit the program if there is an error.
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 ```

@@ -1,3 +1,6 @@
+owm
+---
+
 Package owm implements a wrapper for the OpenWeatherMap API.
 
 Read more about the OpenWeatherMap API here: http://openweathermap.org/api.
