@@ -115,7 +115,9 @@ type Client struct {
 	baseURL string
 }
 
-// NewClient returns a new Client given a key.
+// NewClient returns a new Client given an API key.
+//
+// Pass an empty string as the key argument to use the client without an API key.
 func NewClient(key string) *Client {
 	return &Client{key, "http://api.openweathermap.org/data/2.5/"}
 }
@@ -136,6 +138,9 @@ func (c *Client) data(url string) (data []byte, err error) {
 }
 
 func (c *Client) weather(url string) (w Weather, err error) {
+	if c.key != "" {
+		url += "&APPID=" + c.key
+	}
 	data, err := c.data(url)
 	if err != nil {
 		err = errors.New("owm: error while decoding weather")
@@ -187,6 +192,9 @@ func (c *Client) WeatherByCoord(lat float64, lon float64, units string) (w Weath
 }
 
 func (c *Client) weatherSet(url string) (ws WeatherSet, err error) {
+	if c.key != "" {
+		url += "&APPID=" + c.key
+	}
 	data, err := c.data(url)
 	if err != nil {
 		err = errors.New("owm: error while decoding weather")
