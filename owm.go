@@ -16,8 +16,10 @@ import (
 )
 
 type weatherLine struct {
+	Id int
 	Main        string
 	Description string
+	Icon string
 }
 
 type forecastLine struct {
@@ -55,11 +57,15 @@ type Weather struct {
 		Lon float64
 	}
 	Sys struct {
+		Type int
+		Id int
+		Message int
 		Country string
 		Sunrise int
 		Sunset  int
 	}
 	Weather []weatherLine
+	Base string
 	Main    struct {
 		Temp      float64
 		Humidity  int
