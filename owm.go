@@ -213,18 +213,19 @@ func (c *Client) weatherSet(url string) (ws WeatherSet, err error) {
 	return
 }
 
-// WeatherSetByIds decodes the current weather given a slice of city ids and the units.
-func (c *Client) WeatherSetByIds(id []int, units string) (ws WeatherSet, err error) {
+// WeatherByIds decodes a slice of current weathers given a slice of city ids and the units.
+func (c *Client) WeatherByIds(id []int, units string) (w []Weather, err error) {
 	var ids string
 	for i := range id {
 		ids += strconv.Itoa(id[i]) + ","
 	}
-	ws, err = c.weatherSet(c.baseURL +
+	ws, err := c.weatherSet(c.baseURL +
 		"group" +
 		"?id=" + ids[:len(ids)-1] +
 		"&units=" + units)
 	if err != nil {
 		err = errors.New("owm: error while decoding weather")
 	}
+	w = ws.Weather
 	return
 }
