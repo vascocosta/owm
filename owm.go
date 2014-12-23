@@ -59,7 +59,6 @@ type Weather struct {
 	Sys struct {
 		Type    int
 		Id      int
-		Message int
 		Country string
 		Sunrise int
 		Sunset  int
