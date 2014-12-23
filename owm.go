@@ -210,6 +210,24 @@ func (c *Client) weatherSet(url string) (ws weatherSet, err error) {
 	return
 }
 
+// WeatherByZone decodes a slice of current weathers given the zone coordinates, map zoom and the units.
+func (c *Client) WeatherByZone(lat1, lon1, lat2, lon2 float64, zoom int, units string) (w []Weather, err error) {
+	ws, err := c.weatherSet(c.baseURL +
+		"box/city" +
+		"?bbox=" +
+		strconv.FormatFloat(lat1, 'f', 2, 64) + "," +
+		strconv.FormatFloat(lon1, 'f', 2, 64) + "," +
+		strconv.FormatFloat(lat2, 'f', 2, 64) + "," +
+		strconv.FormatFloat(lon2, 'f', 2, 64) + "," +
+		strconv.Itoa(zoom) +
+		"&units=" + units)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+	}
+	w = ws.Weather
+	return
+}
+
 // WeatherByIds decodes a slice of current weathers given a slice of city ids and the units.
 func (c *Client) WeatherByIds(id []int, units string) (w []Weather, err error) {
 	var ids string
