@@ -88,10 +88,7 @@ type Weather struct {
 	Cod  int
 }
 
-// WeatherSet represents the current weather at a set of specific locations.
-//
-// It is returned by the WeatherSetBy* methods of Client.
-type WeatherSet struct {
+type weatherSet struct {
 	Cnt     int
 	Weather []Weather `json:"list"`
 }
@@ -196,7 +193,7 @@ func (c *Client) WeatherByCoord(lat float64, lon float64, units string) (w Weath
 	return
 }
 
-func (c *Client) weatherSet(url string) (ws WeatherSet, err error) {
+func (c *Client) weatherSet(url string) (ws weatherSet, err error) {
 	if c.key != "" {
 		url += "&APPID=" + c.key
 	}
