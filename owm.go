@@ -155,7 +155,7 @@ func (c *Client) WeatherById(id int, units string) (w Weather, err error) {
 }
 
 // WeatherByCoord decodes the current weather given the city coordinates and the units.
-func (c *Client) WeatherByCoord(lat float64, lon float64, units string) (w Weather, err error) {
+func (c *Client) WeatherByCoord(lat, lon float64, units string) (w Weather, err error) {
 	w, err = c.weather(c.baseURL +
 		"weather" +
 		"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
@@ -268,6 +268,19 @@ func (c *Client) ForecastById(id int, units string) (f Forecast, err error) {
 	f, err = c.forecast(c.baseURL +
 		"forecast" +
 		"?id=" + strconv.Itoa(id) +
+		"&units=" + units)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+	}
+	return
+}
+
+// ForecastByCoord decodes the current forecast given the city coordinates and the units.
+func (c *Client) ForecastByCoord(lat, lon float64, units string) (f Forecast, err error) {
+	f, err = c.forecast(c.baseURL +
+		"forecast" +
+		"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
+		"?lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
 		"&units=" + units)
 	if err != nil {
 		err = errors.New("owm: error while decoding weather")
