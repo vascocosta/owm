@@ -13,6 +13,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type weatherLine struct {
@@ -118,7 +119,7 @@ func (c *Client) weather(url string) (w Weather, err error) {
 		url += "&APPID=" + c.key
 	}
 	data, err := c.data(url)
-	if err != nil {
+	if err != nil || strings.Contains(string(data), `"cod":"404"`) {
 		err = errors.New("owm: error while fetching weather data")
 		return
 	}
@@ -135,7 +136,7 @@ func (c *Client) weatherSet(url string) (ws weatherSet, err error) {
 		url += "&APPID=" + c.key
 	}
 	data, err := c.data(url)
-	if err != nil {
+	if err != nil || strings.Contains(string(data), `"cod":"404"`) {
 		err = errors.New("owm: error while fetching weather data")
 		return
 	}
@@ -152,7 +153,7 @@ func (c *Client) forecast(url string) (f Forecast, err error) {
 		url += "&APPID=" + c.key
 	}
 	data, err := c.data(url)
-	if err != nil {
+	if err != nil || strings.Contains(string(data), `"cod":"404"`) {
 		err = errors.New("owm: error while fetching forecast data")
 		return
 	}
@@ -170,9 +171,6 @@ func (c *Client) WeatherByName(name string, units string) (w Weather, err error)
 		"weather" +
 		"?q=" + name +
 		"&units=" + units)
-	if err != nil {
-		err = errors.New("owm: error while decoding weather data")
-	}
 	return
 }
 
@@ -182,9 +180,6 @@ func (c *Client) WeatherById(id int, units string) (w Weather, err error) {
 		"weather" +
 		"?id=" + strconv.Itoa(id) +
 		"&units=" + units)
-	if err != nil {
-		err = errors.New("owm: error while decoding weather data")
-	}
 	return
 }
 
@@ -195,9 +190,6 @@ func (c *Client) WeatherByCoord(lat, lon float64, units string) (w Weather, err 
 		"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
 		"&lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
 		"&units=" + units)
-	if err != nil {
-		err = errors.New("owm: error while decoding weather data")
-	}
 	return
 }
 
@@ -212,9 +204,6 @@ func (c *Client) WeatherByZone(lat1, lon1, lat2, lon2 float64, zoom int, units s
 		strconv.FormatFloat(lon2, 'f', 2, 64) + "," +
 		strconv.Itoa(zoom) +
 		"&units=" + units)
-	if err != nil {
-		err = errors.New("owm: error while decoding weather data")
-	}
 	w = ws.Weather
 	return
 }
@@ -227,9 +216,6 @@ func (c *Client) WeatherByRadius(lat, lon, radius float64, units string) (w []We
 		"&lon=" + strconv.FormatFloat(lon, 'f', 2, 64) + "," +
 		"&cnt=" + strconv.FormatFloat(radius, 'f', 2, 64) +
 		"&units=" + units)
-	if err != nil {
-		err = errors.New("owm: error while decoding weather data")
-	}
 	w = ws.Weather
 	return
 }
@@ -244,9 +230,6 @@ func (c *Client) WeatherByIds(id []int, units string) (w []Weather, err error) {
 		"group" +
 		"?id=" + ids[:len(ids)-1] +
 		"&units=" + units)
-	if err != nil {
-		err = errors.New("owm: error while decoding weather data")
-	}
 	w = ws.Weather
 	return
 }
@@ -257,9 +240,6 @@ func (c *Client) ForecastByName(name string, units string) (f Forecast, err erro
 		"forecast" +
 		"?q=" + name +
 		"&units=" + units)
-	if err != nil {
-		err = errors.New("owm: error while decoding forecast data")
-	}
 	return
 }
 
@@ -269,9 +249,6 @@ func (c *Client) ForecastById(id int, units string) (f Forecast, err error) {
 		"forecast" +
 		"?id=" + strconv.Itoa(id) +
 		"&units=" + units)
-	if err != nil {
-		err = errors.New("owm: error while decoding forecast data")
-	}
 	return
 }
 
@@ -282,8 +259,5 @@ func (c *Client) ForecastByCoord(lat, lon float64, units string) (f Forecast, er
 		"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
 		"?lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
 		"&units=" + units)
-	if err != nil {
-		err = errors.New("owm: error while decoding forecast data")
-	}
 	return
 }
