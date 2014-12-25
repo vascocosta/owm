@@ -262,3 +262,15 @@ func (c *Client) ForecastByName(name string, units string) (f Forecast, err erro
 	}
 	return
 }
+
+// ForecastById decodes the current forecast given the city id and the units.
+func (c *Client) ForecastById(id int, units string) (f Forecast, err error) {
+	f, err = c.forecast(c.baseURL +
+		"forecast" +
+		"?id=" + strconv.Itoa(id) +
+		"&units=" + units)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+	}
+	return
+}
