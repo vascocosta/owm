@@ -22,32 +22,6 @@ type weatherLine struct {
 	Icon        string
 }
 
-type forecastLine struct {
-	Dt   int
-	Main struct {
-		Temp      float64
-		TempMin   float64 `json:"temp_min"`
-		TempMax   float64 `json:"temp_max"`
-		Pressure  float64
-		SeaLevel  float64 `json:"sea_level"`
-		GrndLevel float64 `json:"grnd_level"`
-		Humidity  int
-	}
-	Weather []weatherLine
-	Wind    struct {
-		Speed float64
-		Deg   float64
-		Gust  float64
-	}
-	Clouds struct {
-		All int
-	}
-	Sys struct {
-		Pod string
-	}
-	DtTxt string `json:"dt_txt"`
-}
-
 // Weather represents the current weather at a specific location.
 //
 // It is returned by the WeatherBy* methods of Client.
@@ -97,7 +71,7 @@ type weatherSet struct {
 //
 // It is returned by the ForecastBy* methods of Client.
 type Forecast struct {
-	Cod  int
+	Cod  string
 	City struct {
 		Id    int
 		Name  string
@@ -107,8 +81,8 @@ type Forecast struct {
 		}
 		Country string
 	}
-	Cnt          int
-	ForecastLine []forecastLine
+	Cnt     int
+	Weather []Weather `json:"list"`
 }
 
 // Client represents an OpenWeatherMap API client.
@@ -257,5 +231,34 @@ func (c *Client) WeatherByIds(id []int, units string) (w []Weather, err error) {
 		err = errors.New("owm: error while decoding weather")
 	}
 	w = ws.Weather
+	return
+}
+
+func (c *Client) forecast(url string) (f Forecast, err error) {
+	if c.key != "" {
+		url += "&APPID=" + c.key
+	}
+	data, err := c.data(url)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+		return
+	}
+	err = json.Unmarshal(data, &f)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+		return
+	}
+	return
+}
+
+// ForecastByName decodes the current forecast given the city name and the units.
+func (c *Client) ForecastByName(name string, units string) (f Forecast, err error) {
+	f, err = c.forecast(c.baseURL +
+		"forecast" +
+		"?q=" + name +
+		"&units=" + units)
+	if err != nil {
+		err = errors.New("owm: error while decoding weather")
+	}
 	return
 }
