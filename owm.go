@@ -257,7 +257,38 @@ func (c *Client) ForecastByCoord(lat, lon float64, units string) (f Forecast, er
 	f, err = c.forecast(c.baseURL +
 		"forecast" +
 		"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
-		"?lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
+		"&lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
+		"&units=" + units)
+	return
+}
+
+// DailyForecastByName decodes the daily forecast given the city name, number of days  and units.
+func (c *Client) DailyForecastByName(name string, days int, units string) (f Forecast, err error) {
+	f, err = c.forecast(c.baseURL +
+		"forecast/daily" +
+		"?q=" + name +
+		"&cnt=" + strconv.Itoa(days) +
+		"&units=" + units)
+	return
+}
+
+// DailyForecastById decodes the daily forecast given the city id, number of days and units.
+func (c *Client) DailyForecastById(id, days int, units string) (f Forecast, err error) {
+	f, err = c.forecast(c.baseURL +
+		"forecast/daily" +
+		"?id=" + strconv.Itoa(id) +
+		"&cnt=" + strconv.Itoa(days) +
+		"&units=" + units)
+	return
+}
+
+// DailyForecastByCoord decodes the daily forecast given the city coordinates, number of days and units.
+func (c *Client) DailyForecastByCoord(lat, lon float64, days int, units string) (f Forecast, err error) {
+	f, err = c.forecast(c.baseURL +
+		"forecast/daily" +
+		"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
+		"&lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
+		"&cnt=" + strconv.Itoa(days) +
 		"&units=" + units)
 	return
 }
