@@ -165,7 +165,12 @@ func (c *Client) forecast(url string) (f Forecast, err error) {
 	return
 }
 
-// WeatherByName decodes the current weather given the city name and the units.
+// WeatherByName decodes the current weather of a location given the city name
+// and units. It uses the corresponding web API URL to fetch JSON encoded data
+// and returns a Weather with as much fields decoded as those available.
+//
+// An error is returned if there is a problem while fetching weather data from
+// the web API or decoding the weather data.
 func (c *Client) WeatherByName(name string, units string) (w Weather, err error) {
 	w, err = c.weather(c.baseURL +
 		"weather" +
@@ -174,7 +179,12 @@ func (c *Client) WeatherByName(name string, units string) (w Weather, err error)
 	return
 }
 
-// WeatherById decodes the current weather given the city id and the units.
+// WeatherById decodes the current weather of a location given the city id and
+// units. It uses the corresponding web API URL to fetch JSON encoded data and
+// returns a Weather with as much fields decoded as those available.
+//
+// An error is returned if there is a problem while fetching weather data from
+// the web API or decoding the weather data.
 func (c *Client) WeatherById(id int, units string) (w Weather, err error) {
 	w, err = c.weather(c.baseURL +
 		"weather" +
@@ -183,7 +193,13 @@ func (c *Client) WeatherById(id int, units string) (w Weather, err error) {
 	return
 }
 
-// WeatherByCoord decodes the current weather given the city coordinates and the units.
+// WeatherByCoord decodes the current weather of a location given the city
+// coordinates and units. It uses the corresponding web API URL to fetch JSON
+// encoded data and returns a Weather with as much fields decoded as those
+// available.
+//
+// An error is returned if there is a problem while fetching weather data from
+// the web API or decoding the weather data.
 func (c *Client) WeatherByCoord(lat, lon float64, units string) (w Weather, err error) {
 	w, err = c.weather(c.baseURL +
 		"weather" +
@@ -193,7 +209,13 @@ func (c *Client) WeatherByCoord(lat, lon float64, units string) (w Weather, err 
 	return
 }
 
-// WeatherByZone decodes a slice of current weathers given the zone coordinates, map zoom and the units.
+// WeatherByZone decodes the current weather of multiple locations given the
+// zone coordinates, map zoom and units. It uses the corresponding web API URL
+// to fetch JSON encoded data and returns a []Weather with as much fields
+// decoded as those available.
+//
+// An error is returned if there is a problem while fetching weather data from
+// the web API or decoding the weather data.
 func (c *Client) WeatherByZone(lat1, lon1, lat2, lon2 float64, zoom int, units string) (w []Weather, err error) {
 	ws, err := c.weatherSet(c.baseURL +
 		"box/city" +
@@ -208,7 +230,13 @@ func (c *Client) WeatherByZone(lat1, lon1, lat2, lon2 float64, zoom int, units s
 	return
 }
 
-// WeatherByRadius decodes a slice of current weathers given the center coordinates, radius and the units.
+// WeatherByRadius decodes the current weather of multiple locations given the
+// center coordinates, radius and units. It uses the corresponding web API URL
+// to fetch JSON encoded data and returns a []Weather with as much fields
+// decoded as those available.
+//
+// An error is returned if there is a problem while fetching weather data from
+// the web API or decoding the weather data.
 func (c *Client) WeatherByRadius(lat, lon, radius float64, units string) (w []Weather, err error) {
 	ws, err := c.weatherSet(c.baseURL +
 		"find" +
@@ -220,7 +248,13 @@ func (c *Client) WeatherByRadius(lat, lon, radius float64, units string) (w []We
 	return
 }
 
-// WeatherByIds decodes a slice of current weathers given a slice of city ids and the units.
+// WeatherByIds decodes the current weather of multiple locations given the a
+// slice of city ids and units. It uses the corresponding web API URL to fetch
+// JSON encoded data and returns a []Weather with as much fields decoded fields
+// as those available.
+//
+// An error is returned if there is a problem while fetching weather data from
+// the web API or decoding the weather data.
 func (c *Client) WeatherByIds(id []int, units string) (w []Weather, err error) {
 	var ids string
 	for i := range id {
