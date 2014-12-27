@@ -268,77 +268,79 @@ func (c *Client) WeatherByIds(id []int, units string) (w []Weather, err error) {
 	return
 }
 
-// ForecastByName decodes the current forecast of a location given the city name
-// and units. It uses the corresponding web API URL to fetch JSON encoded data
-// and returns a Forecast with as much fields decoded as those available.
+// ForecastByName decodes the current forecast of a location given the city
+// name, days and units. If days is equal to 0, it returns an hourly forecast,
+// otherwise if days is greater than 0, it returns a daily forecast for the
+// given number of days. It uses the corresponding web API URL to fetch JSON
+// encoded data and returns a Forecast with as much fields decoded as those
+// available.
 //
-// An error is returned if there is a problem while fetching weather data from
-// the web API or decoding the weather data.
-func (c *Client) ForecastByName(name string, units string) (f Forecast, err error) {
-	f, err = c.forecast(c.baseURL +
-		"forecast" +
-		"?q=" + name +
-		"&units=" + units)
+// An error is returned if there is a problem while fetching forecast data from
+// the web API or decoding the forecast data.
+func (c *Client) ForecastByName(name string, days int, units string) (f Forecast, err error) {
+	if days > 0 {
+		f, err = c.forecast(c.baseURL +
+			"forecasti/daily" +
+			"?q=" + name +
+			"&cnt=" + strconv.Itoa(days) +
+			"&units=" + units)
+	} else {
+		f, err = c.forecast(c.baseURL +
+			"forecast" +
+			"?q=" + name +
+			"&units=" + units)
+	}
 	return
 }
 
-// ForecastById decodes the current forecast of a location given the city id
-// and units. It uses the corresponding web API URL to fetch JSON encoded data
-// and returns a Forecast with as much fields decoded as those available.
+// ForecastById decodes the current forecast of a location given the city id,
+// days and units. If days is equal to 0, it returns an hourly forecast,
+// otherwise if days is greater than 0, it returns a daily forecast for the
+// given number of days. It uses the corresponding web API URL to fetch JSON
+// encoded data and returns a Forecast with as much fields decoded as those
+// available.
 //
-// An error is returned if there is a problem while fetching weather data from
-// the web API or decoding the weather data.
-func (c *Client) ForecastById(id int, units string) (f Forecast, err error) {
-	f, err = c.forecast(c.baseURL +
-		"forecast" +
-		"?id=" + strconv.Itoa(id) +
-		"&units=" + units)
+// An error is returned if there is a problem while fetching forecast data from
+// the web API or decoding the forecast data.
+func (c *Client) ForecastById(id, days int, units string) (f Forecast, err error) {
+	if days > 0 {
+		f, err = c.forecast(c.baseURL +
+			"forecast/daily" +
+			"?id=" + strconv.Itoa(id) +
+			"&cnt=" + strconv.Itoa(days) +
+			"&units=" + units)
+	} else {
+		f, err = c.forecast(c.baseURL +
+			"forecast" +
+			"?id=" + strconv.Itoa(id) +
+			"&units=" + units)
+	}
 	return
 }
 
 // ForecastByCoord decodes the current forecast of a location given the city
-// coordinates and units. It uses the corresponding web API URL to fetch JSON
-// encoded data and returns a Forecast with as much fields decoded as those
+// coordinates, days and units. If days is equal to 0, it returns an hourly
+// forecast, otherwise if days is greater than 0, it returns a daily forecast
+// for the given number of days. It uses the corresponding web API URL to fetch
+// JSON encoded data and returns a Forecast with as much fields decoded as those
 // available.
 //
-// An error is returned if there is a problem while fetching weather data from
-// the web API or decoding the weather data.
-func (c *Client) ForecastByCoord(lat, lon float64, units string) (f Forecast, err error) {
-	f, err = c.forecast(c.baseURL +
-		"forecast" +
-		"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
-		"&lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
-		"&units=" + units)
-	return
-}
-
-// DailyForecastByName decodes the daily forecast given the city name, number of days  and units.
-func (c *Client) DailyForecastByName(name string, days int, units string) (f Forecast, err error) {
-	f, err = c.forecast(c.baseURL +
-		"forecast/daily" +
-		"?q=" + name +
-		"&cnt=" + strconv.Itoa(days) +
-		"&units=" + units)
-	return
-}
-
-// DailyForecastById decodes the daily forecast given the city id, number of days and units.
-func (c *Client) DailyForecastById(id, days int, units string) (f Forecast, err error) {
-	f, err = c.forecast(c.baseURL +
-		"forecast/daily" +
-		"?id=" + strconv.Itoa(id) +
-		"&cnt=" + strconv.Itoa(days) +
-		"&units=" + units)
-	return
-}
-
-// DailyForecastByCoord decodes the daily forecast given the city coordinates, number of days and units.
-func (c *Client) DailyForecastByCoord(lat, lon float64, days int, units string) (f Forecast, err error) {
-	f, err = c.forecast(c.baseURL +
-		"forecast/daily" +
-		"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
-		"&lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
-		"&cnt=" + strconv.Itoa(days) +
-		"&units=" + units)
+// An error is returned if there is a problem while fetching forecast data from
+// the web API or decoding the forecast data.
+func (c *Client) ForecastByCoord(lat, lon float64, days int, units string) (f Forecast, err error) {
+	if days > 0 {
+		f, err = c.forecast(c.baseURL +
+			"forecast/daily" +
+			"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
+			"&lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
+			"&cnt=" + strconv.Itoa(days) +
+			"&units=" + units)
+	} else {
+		f, err = c.forecast(c.baseURL +
+			"forecast" +
+			"?lat=" + strconv.FormatFloat(lat, 'f', 2, 64) +
+			"&lon=" + strconv.FormatFloat(lon, 'f', 2, 64) +
+			"&units=" + units)
+	}
 	return
 }
