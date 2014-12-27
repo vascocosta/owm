@@ -268,7 +268,12 @@ func (c *Client) WeatherByIds(id []int, units string) (w []Weather, err error) {
 	return
 }
 
-// ForecastByName decodes the current forecast given the city name and the units.
+// ForecastByName decodes the current forecast of a location given the city name
+// and units. It uses the corresponding web API URL to fetch JSON encoded data
+// and returns a Forecast with as much fields decoded as those available.
+//
+// An error is returned if there is a problem while fetching weather data from
+// the web API or decoding the weather data.
 func (c *Client) ForecastByName(name string, units string) (f Forecast, err error) {
 	f, err = c.forecast(c.baseURL +
 		"forecast" +
@@ -277,7 +282,12 @@ func (c *Client) ForecastByName(name string, units string) (f Forecast, err erro
 	return
 }
 
-// ForecastById decodes the current forecast given the city id and the units.
+// ForecastById decodes the current forecast of a location given the city id
+// and units. It uses the corresponding web API URL to fetch JSON encoded data
+// and returns a Forecast with as much fields decoded as those available.
+//
+// An error is returned if there is a problem while fetching weather data from
+// the web API or decoding the weather data.
 func (c *Client) ForecastById(id int, units string) (f Forecast, err error) {
 	f, err = c.forecast(c.baseURL +
 		"forecast" +
@@ -286,7 +296,13 @@ func (c *Client) ForecastById(id int, units string) (f Forecast, err error) {
 	return
 }
 
-// ForecastByCoord decodes the current forecast given the city coordinates and the units.
+// ForecastByCoord decodes the current forecast of a location given the city
+// coordinates and units. It uses the corresponding web API URL to fetch JSON
+// encoded data and returns a Forecast with as much fields decoded as those
+// available.
+//
+// An error is returned if there is a problem while fetching weather data from
+// the web API or decoding the weather data.
 func (c *Client) ForecastByCoord(lat, lon float64, units string) (f Forecast, err error) {
 	f, err = c.forecast(c.baseURL +
 		"forecast" +
