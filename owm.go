@@ -17,10 +17,10 @@ import (
 )
 
 type weatherLine struct {
-	Id          int
-	Main        string
-	Description string
-	Icon        string
+	Id          int    // Weather condition id.
+	Main        string // Group of weather parameters.
+	Description string // Weather condition within the group.
+	Icon        string // Weather icon id.
 }
 
 // Weather represents the current weather at a specific location.
@@ -28,68 +28,68 @@ type weatherLine struct {
 // It is returned by the WeatherBy* methods of Client.
 type Weather struct {
 	Coord struct {
-		Lat float64
-		Lon float64
+		Lat float64 // City latitude.
+		Lon float64 // City longitude.
 	}
 	Sys struct {
-		Type    int
-		Id      int
-		Country string
-		Sunrise int
-		Sunset  int
+		Type    int    // Unused field.
+		Id      int    // Unused field.
+		Country string // Country.
+		Sunrise int    // Sunrise unix timestamp.
+		Sunset  int    // Sunset unix timestamp.
 	}
-	Weather []weatherLine
-	Base    string
+	Weather []weatherLine // Weather line.
+	Base    string        // Unused field.
 	Main    struct {
-		Temp      float64
-		Humidity  int
-		TempMin   float64 `json:"temp_min"`
-		TempMax   float64 `json:"temp_max"`
-		Pressure  float64
-		SeaLevel  float64 `json:"sea_level"`
-		GrndLevel float64 `json:"grnd_level"`
+		Temp      float64 // Temperature.
+		Humidity  int     // Humidity.
+		TempMin   float64 `json:"temp_min"` // Minimum temperature.
+		TempMax   float64 `json:"temp_max"` // Maximum temperature.
+		Pressure  float64 // Atmospheric pressure.
+		SeaLevel  float64 `json:"sea_level"`  // Sea level atmospheric pressure.
+		GrndLevel float64 `json:"grnd_level"` // Ground level atmospheric pressure.
 	}
 	Wind struct {
-		Speed float64
-		Deg   float64
-		Gust  float64
+		Speed float64 // Wind speed.
+		Deg   float64 // Wind direction.
+		Gust  float64 // Wind gust.
 	}
 	Clouds struct {
-		All int
+		All int // Cloudiness.
 	}
-	Dt   int
-	Id   int
-	Name string
-	Cod  int
+	Dt   int    // Data unix timestamp.
+	Id   int    // City identification.
+	Name string // City name.
+	Cod  int    // Unused field.
 }
 
 type weatherSet struct {
-	Cnt     int
-	Weather []Weather `json:"list"`
+	Cnt     int       // Weather line count.
+	Weather []Weather `json:"list"` // Weather line.
 }
 
 // Forecast represents the weather forecast for a specific location.
 //
 // It is returned by the ForecastBy* methods of Client.
 type Forecast struct {
-	Cod  string
+	Cod  string // Code.
 	City struct {
-		Id    int
-		Name  string
+		Id    int    // City indentification.
+		Name  string // City name.
 		Coord struct {
-			Lon float64
-			Lat float64
+			Lat float64 // City latitude.
+			Lon float64 // City longitude.
 		}
-		Country string
+		Country string // Country.
 	}
-	Cnt     int
+	Cnt     int       // Weather line count.
 	Weather []Weather `json:"list"`
 }
 
 // Client represents an OpenWeatherMap API client.
 type Client struct {
-	key     string
-	baseURL string
+	key     string // API key.
+	baseURL string // API base URL.
 }
 
 // NewClient returns a new Client given an API key.
