@@ -62,8 +62,8 @@ type Weather struct {
 }
 
 type weatherSet struct {
-	Count   int       `json:"count"` // Weather line count.
-	Weather []Weather `json:"list"`  // Weather line.
+	Cnt     int       `json:"cnt"`  // Weather line count.
+	Weather []Weather `json:"list"` // Weather line.
 }
 
 // Forecast represents the weather forecast for a specific location.
