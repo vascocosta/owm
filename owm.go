@@ -10,10 +10,12 @@ package owm
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // Weather represents the current weather at a specific location.
@@ -59,6 +61,56 @@ type Weather struct {
 	Id   int    `json:"id"`   // City identification.
 	Name string `json:"name"` // City name.
 	Cod  int    `json:"cod"`  // Unused field.
+}
+
+// String returns a string representation of Weather by implementing Stringer.
+func (w *Weather) String() string {
+	return fmt.Sprintf("Date: %v\n"+
+		"Id: %v\n"+
+		"Name: %v\n"+
+		"Country: %v\n"+
+		"Sunrise: %v\n"+
+		"Sunset: %v\n"+
+		"Lat: %v\n"+
+		"Lon: %v\n"+
+		"Weather Id: %v\n"+
+		"Weather Main: %v\n"+
+		"Weather Description: %v\n"+
+		"Weather Icon: %v\n"+
+		"Temp: %v\n"+
+		"Humidity: %v\n"+
+		"Temp Min: %v\n"+
+		"Temp Max: %v\n"+
+		"Pressure: %v\n"+
+		"Sea Level: %v\n"+
+		"Ground Level: %v\n"+
+		"Wind Speed: %v\n"+
+		"Wind Direction: %v\n"+
+		"Wind Gust: %v\n"+
+		"Cloudiness: %v",
+		time.Unix(int64(w.Dt), 0),
+		w.Id,
+		w.Name,
+		w.Sys.Country,
+		time.Unix(int64(w.Sys.Sunrise), 0),
+		time.Unix(int64(w.Sys.Sunset), 0),
+		w.Coord.Lat,
+		w.Coord.Lon,
+		w.Weather[0].Id,
+		w.Weather[0].Main,
+		w.Weather[0].Description,
+		w.Weather[0].Icon,
+		w.Main.Temp,
+		w.Main.Humidity,
+		w.Main.TempMin,
+		w.Main.TempMax,
+		w.Main.Pressure,
+		w.Main.SeaLevel,
+		w.Main.GrndLevel,
+		w.Wind.Speed,
+		w.Wind.Deg,
+		w.Wind.Gust,
+		w.Clouds.All)
 }
 
 type weatherSet struct {
