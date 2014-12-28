@@ -16,74 +16,72 @@ import (
 	"strings"
 )
 
-type weatherLine struct {
-	Id          int    // Weather condition id.
-	Main        string // Group of weather parameters.
-	Description string // Weather condition within the group.
-	Icon        string // Weather icon id.
-}
-
 // Weather represents the current weather at a specific location.
 //
 // It is returned by the WeatherBy* methods of Client.
 type Weather struct {
 	Coord struct {
-		Lat float64 // City latitude.
-		Lon float64 // City longitude.
+		Lat float64 `json:"lat"` // City latitude.
+		Lon float64 `json:"lon"` // City longitude.
 	}
 	Sys struct {
-		Type    int    // Unused field.
-		Id      int    // Unused field.
-		Country string // Country.
-		Sunrise int    // Sunrise unix timestamp.
-		Sunset  int    // Sunset unix timestamp.
+		Type    int    `json:"type"`    // Unused field.
+		Id      int    `json:"id"`      // Unused field.
+		Country string `json:"country"` // Country.
+		Sunrise int    `json:"sunrise"` // Sunrise unix timestamp.
+		Sunset  int    `json:"sunset"`  // Sunset unix timestamp.
 	}
-	Weather []weatherLine // Weather line.
-	Base    string        // Unused field.
-	Main    struct {
-		Temp      float64 // Temperature.
-		Humidity  int     // Humidity.
-		TempMin   float64 `json:"temp_min"` // Minimum temperature.
-		TempMax   float64 `json:"temp_max"` // Maximum temperature.
-		Pressure  float64 // Atmospheric pressure.
+	Weather []struct {
+		Id          int    `json:"id"`          // Weather condition id.
+		Main        string `json:"main"`        // Group of weather parameters.
+		Description string `json:"description"` // Weather condition within the group.
+		Icon        string `json:"icon"`        // Weather icon id.
+	}
+	Base string `json:"base"` // Unused field.
+	Main struct {
+		Temp      float64 `json:"temp"`       // Temperature.
+		Humidity  int     `json:"humidity"`   // Humidity.
+		TempMin   float64 `json:"temp_min"`   // Minimum temperature.
+		TempMax   float64 `json:"temp_max"`   // Maximum temperature.
+		Pressure  float64 `json:"pressure"`   // Atmospheric pressure.
 		SeaLevel  float64 `json:"sea_level"`  // Sea level atmospheric pressure.
 		GrndLevel float64 `json:"grnd_level"` // Ground level atmospheric pressure.
 	}
 	Wind struct {
-		Speed float64 // Wind speed.
-		Deg   float64 // Wind direction.
-		Gust  float64 // Wind gust.
+		Speed float64 `json:"speed"` // Wind speed.
+		Deg   float64 `json:"deg"`   // Wind direction.
+		Gust  float64 `json:"gust"`  // Wind gust.
 	}
 	Clouds struct {
-		All int // Cloudiness.
+		All int `json:"all"` // Cloudiness.
 	}
-	Dt   int    // Data unix timestamp.
-	Id   int    // City identification.
-	Name string // City name.
-	Cod  int    // Unused field.
+	Dt   int    `json:"dt"`   // Data unix timestamp.
+	Id   int    `json:"id"`   // City identification.
+	Name string `json:"name"` // City name.
+	Cod  int    `json:"cod"`  // Unused field.
 }
 
 type weatherSet struct {
-	Cnt     int       // Weather line count.
-	Weather []Weather `json:"list"` // Weather line.
+	Count   int       `json:"count"` // Weather line count.
+	Weather []Weather `json:"list"`  // Weather line.
 }
 
 // Forecast represents the weather forecast for a specific location.
 //
 // It is returned by the ForecastBy* methods of Client.
 type Forecast struct {
-	Cod  string // Code.
+	Cod  string `json:"cod"` // Code.
 	City struct {
-		Id    int    // City indentification.
-		Name  string // City name.
+		Id    int    `json:"id"`   // City indentification.
+		Name  string `json:"name"` // City name.
 		Coord struct {
-			Lat float64 // City latitude.
-			Lon float64 // City longitude.
+			Lat float64 `json:"lat"` // City latitude.
+			Lon float64 `json:"lon"` // City longitude.
 		}
-		Country string // Country.
+		Country string `json:"country"` // Country.
 	}
-	Cnt     int       // Weather line count.
-	Weather []Weather `json:"list"`
+	Cnt     int       `json:"cnt"`  // Weather line count.
+	Weather []Weather `json:"list"` // Weather line
 }
 
 // Client represents an OpenWeatherMap API client.
