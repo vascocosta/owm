@@ -12,9 +12,9 @@ Read more about the original API here: http://openweathermap.org/api.
 
 `godoc github.com/vascocosta/owm`
 
-Online version [here](http://godoc.org/github.com/vascocosta/owm).
+Read it online here: [http://godoc.org/github.com/vascocosta/owm](http://godoc.org/github.com/vascocosta/owm).
 
-## Example
+## Examples
 
 ```go
 package main
