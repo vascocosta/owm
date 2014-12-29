@@ -12,7 +12,7 @@ Read more about the original API here: http://openweathermap.org/api.
 
 `godoc github.com/vascocosta/owm`
 
-or read online here [github.com/vascocosta/owm](http://godoc.org/github.com/vascocosta/owm)
+Online version [here](http://godoc.org/github.com/vascocosta/owm).
 
 ## Example
 
