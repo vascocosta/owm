@@ -122,18 +122,59 @@ type weatherSet struct {
 //
 // It is returned by the ForecastBy* methods of Client.
 type Forecast struct {
-	Cod  string `json:"cod"` // Code.
 	City struct {
-		Id    int    `json:"id"`   // City indentification.
-		Name  string `json:"name"` // City name.
 		Coord struct {
-			Lat float64 `json:"lat"` // City latitude.
-			Lon float64 `json:"lon"` // City longitude.
-		}
-		Country string `json:"country"` // Country.
-	}
-	Cnt     int       `json:"cnt"`  // Weather line count.
-	Weather []Weather `json:"list"` // Weather line
+			Lat float64 `json:"lat"`
+			Lon float64 `json:"lon"`
+		} `json:"coord"`
+		Country    string `json:"country"`
+		ID         int    `json:"id"`
+		Name       string `json:"name"`
+		Population int    `json:"population"`
+		Sys        struct {
+			Population int `json:"population"`
+		} `json:"sys"`
+	} `json:"city"`
+	Cnt  int    `json:"cnt"`
+	Cod  string `json:"cod"`
+	List []struct {
+		Clouds   int     `json:"clouds"`
+		Deg      int     `json:"deg"`
+		Dt       int     `json:"dt"`
+		Humidity int     `json:"humidity"`
+		Pressure float64 `json:"pressure"`
+		Speed    float64 `json:"speed"`
+		Temp     struct {
+			Day   float64 `json:"day"`
+			Eve   float64 `json:"eve"`
+			Max   float64 `json:"max"`
+			Min   float64 `json:"min"`
+			Morn  float64 `json:"morn"`
+			Night float64 `json:"night"`
+		} `json:"temp"`
+		Weather []struct {
+			Description string `json:"description"`
+			Icon        string `json:"icon"`
+			ID          int    `json:"id"`
+			Main        string `json:"main"`
+		} `json:"weather"`
+	} `json:"list"`
+	Message float64 `json:"message"`
+}
+
+func (f *Forecast) String() string {
+	return fmt.Sprintf("Id: %v\n"+
+		"Name: %v\n"+
+		"Lat: %v\n"+
+		"Lon: %v\n"+
+		"Country: %v\n"+
+		"Cnt: %v\n",
+		f.City.ID,
+		f.City.Name,
+		f.City.Coord.Lat,
+		f.City.Coord.Lon,
+		f.City.Country,
+		f.Cnt)
 }
 
 // Client represents an OpenWeatherMap API client.
@@ -330,7 +371,7 @@ func (c *Client) WeatherByIds(id []int, units string) (w []Weather, err error) {
 func (c *Client) ForecastByName(name string, days int, units string) (f Forecast, err error) {
 	if days > 0 {
 		f, err = c.forecast(c.baseURL +
-			"forecasti/daily" +
+			"forecast/daily" +
 			"?q=" + name +
 			"&cnt=" + strconv.Itoa(days) +
 			"&units=" + units)
