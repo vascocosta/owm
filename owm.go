@@ -339,10 +339,10 @@ func (c *Client) WeatherByRadius(lat, lon, radius float64, units string) (w []We
 	return
 }
 
-// WeatherByIds decodes the current weather of multiple locations given the a
-// slice of city ids and units. It uses the corresponding web API URL to fetch
-// JSON encoded data and returns a []Weather with as much fields decoded fields
-// as those available.
+// WeatherByIds decodes the current weather of multiple locations given a slice
+// of city ids and units. It uses the corresponding web API URL to fetch JSON
+// encoded data and returns a []Weather with as much fields decoded fields as
+// those available.
 //
 // An error is returned if there is a problem while fetching weather data from
 // the web API or decoding the weather data.
