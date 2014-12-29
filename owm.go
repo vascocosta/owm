@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package owm implements a wrapper for the OpenWeatherMap API.
+// Package owm implements a wrapper for the Open Weather Map API.
 //
-// Read more about the OpenWeatherMap API here: http://openweathermap.org/api.
+// Read more about the original API here: http://openweathermap.org/api.
 package owm
 
 import (
