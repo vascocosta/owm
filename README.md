@@ -1,8 +1,8 @@
 # owm
 
-Package owm implements a wrapper for the OpenWeatherMap API.
+Package owm implements a wrapper for the Open Weather Map API.
 
-Read more about the OpenWeatherMap API here: http://openweathermap.org/api.
+Read more about the original API here: http://openweathermap.org/api.
 
 ## Installation
 
@@ -10,9 +10,11 @@ Read more about the OpenWeatherMap API here: http://openweathermap.org/api.
 
 ## Documentation
 
-`godoc [github.com/vascocosta/owm](http://godoc.org/github.com/vascocosta/owm)`
+`godoc github.com/vascocosta/owm`
 
-## Examples
+or read online here [github.com/vascocosta/owm](http://godoc.org/github.com/vascocosta/owm)
+
+## Example
 
 ```go
 package main
