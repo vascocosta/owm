@@ -137,9 +137,18 @@ type Forecast struct {
 			Population int `json:"population"`
 		} `json:"sys"`
 	} `json:"city"`
-	Cnt  int `json:"cnt"`
-	List []struct {
+	Cnt      int `json:"cnt"`
+	Forecast []struct {
 		Dt   int `json:"dt"`
+		Main struct {
+			Temp      float64 `json:"temp"`
+			Humidity  int     `json:"humidity"`
+			TempMin   float64 `json:"temp_min"`
+			TempMax   float64 `json:"temp_max"`
+			Pressure  float64 `json:"pressure"`
+			SeaLevel  float64 `json:"sea_level"`
+			GrndLevel float64 `json:"grnd_level"`
+		} `json:"main"`
 		Temp struct {
 			Day   float64 `json:"day"`
 			Min   float64 `json:"min"`
@@ -156,26 +165,33 @@ type Forecast struct {
 			Description string `json:"description"`
 			Icon        string `json:"icon"`
 		} `json:"weather"`
-		Speed  float64 `json:"speed"`
-		Deg    int     `json:"deg"`
-		Gust   float64 `json:"gust"`
-		Clouds int     `json:"clouds"`
+		Wind struct {
+			Speed float64 `json:"speed"`
+			Deg   float64 `json:"deg"`
+			Gust  float64 `json:"gust"`
+		} `json:"wind"`
+		Speed  float64     `json:"speed"`
+		Deg    int         `json:"deg"`
+		Gust   float64     `json:"gust"`
+		Clouds interface{} `json:"clouds"`
 	} `json:"list"`
 }
 
 func (f *Forecast) String() string {
 	return fmt.Sprintf("Id: %v\n"+
 		"Name: %v\n"+
+		"Country: %v\n"+
 		"Lat: %v\n"+
 		"Lon: %v\n"+
-		"Country: %v\n"+
-		"Cnt: %v\n",
-		f.City.ID,
+		"Population: %v\n"+
+		"Forecast: %v\n",
+		f.City.Id,
 		f.City.Name,
+		f.City.Country,
 		f.City.Coord.Lat,
 		f.City.Coord.Lon,
-		f.City.Country,
-		f.Cnt)
+		f.City.Population,
+		f.Forecast)
 }
 
 // Client represents an OpenWeatherMap API client.
