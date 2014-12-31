@@ -122,44 +122,45 @@ type weatherSet struct {
 //
 // It is returned by the ForecastBy* methods of Client.
 type Forecast struct {
-	City struct {
-		Coord struct {
+	Cod     string  `json:"cod"`
+	Message float64 `json:"message"`
+	City    struct {
+		Id      int    `json:"id"`
+		Name    string `json:"name"`
+		Country string `json:"country"`
+		Coord   struct {
 			Lat float64 `json:"lat"`
 			Lon float64 `json:"lon"`
 		} `json:"coord"`
-		Country    string `json:"country"`
-		ID         int    `json:"id"`
-		Name       string `json:"name"`
-		Population int    `json:"population"`
+		Population int `json:"population"`
 		Sys        struct {
 			Population int `json:"population"`
 		} `json:"sys"`
 	} `json:"city"`
-	Cnt  int    `json:"cnt"`
-	Cod  string `json:"cod"`
+	Cnt  int `json:"cnt"`
 	List []struct {
-		Clouds   int     `json:"clouds"`
-		Deg      int     `json:"deg"`
-		Dt       int     `json:"dt"`
-		Humidity int     `json:"humidity"`
-		Pressure float64 `json:"pressure"`
-		Speed    float64 `json:"speed"`
-		Temp     struct {
+		Dt   int `json:"dt"`
+		Temp struct {
 			Day   float64 `json:"day"`
-			Eve   float64 `json:"eve"`
-			Max   float64 `json:"max"`
 			Min   float64 `json:"min"`
+			Max   float64 `json:"max"`
 			Morn  float64 `json:"morn"`
+			Eve   float64 `json:"eve"`
 			Night float64 `json:"night"`
 		} `json:"temp"`
-		Weather []struct {
+		Pressure float64 `json:"pressure"`
+		Humidity int     `json:"humidity"`
+		Weather  []struct {
+			Id          int    `json:"id"`
+			Main        string `json:"main"`
 			Description string `json:"description"`
 			Icon        string `json:"icon"`
-			ID          int    `json:"id"`
-			Main        string `json:"main"`
 		} `json:"weather"`
+		Speed  float64 `json:"speed"`
+		Deg    int     `json:"deg"`
+		Gust   float64 `json:"gust"`
+		Clouds int     `json:"clouds"`
 	} `json:"list"`
-	Message float64 `json:"message"`
 }
 
 func (f *Forecast) String() string {
