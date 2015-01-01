@@ -184,7 +184,7 @@ func (f *Forecast) String() string {
 		"Lat: %v\n"+
 		"Lon: %v\n"+
 		"Population: %v\n"+
-		"Forecast: %v\n",
+		"Forecast: \n%v",
 		f.City.Id,
 		f.City.Name,
 		f.City.Country,
