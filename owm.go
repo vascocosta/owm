@@ -177,6 +177,7 @@ type Forecast struct {
 	} `json:"list"`
 }
 
+// String returns a string representation of Forecast by implementing Stringer.
 func (f *Forecast) String() string {
 	return fmt.Sprintf("Id: %v\n"+
 		"Name: %v\n"+
